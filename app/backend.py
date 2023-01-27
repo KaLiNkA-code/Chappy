@@ -7,16 +7,15 @@ from fastapi.templating import Jinja2Templates
 app = FastAPI()
 
 
-app.mount("/mainpage", StaticFiles(directory="frontend/mainpage"), name="mainpage")
-
-
-templates = Jinja2Templates(directory="frontend/mainpage")
-
+app.mount("/static", StaticFiles(directory="static"), name="static")
+templates = Jinja2Templates(directory="templates")
 
 @app.get("/")
 async def root(request: Request):
-    return templates.TemplateResponse(
+    response =  templates.TemplateResponse(
         "main.html", {"request": request})
+    print(type(response))
+    return response
 
 
 # @app.post("/nicepage.css")
