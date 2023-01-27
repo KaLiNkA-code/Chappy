@@ -3,7 +3,8 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
-
+import httpx
+import requests
 app = FastAPI()
 
 
@@ -16,6 +17,15 @@ async def root(request: Request):
         "main.html", {"request": request})
     print(type(response))
     return response
+
+
+@app.get("/api")
+async def root_api(request: Request):
+    response = requests.get("http://localhost:5050/")
+    print(response)
+    data = response.json()
+    return {"status": "ok", "message": "Hello World from frontend", "data": data}
+
 
 
 # @app.post("/nicepage.css")
